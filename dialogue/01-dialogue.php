@@ -44,7 +44,7 @@
     <main class="container">
 
        <section class="row">
-           <div class="col-12 col-md-6">
+           <div class="col-12">
                <h2>Base de données "dialogue"</h2>
                <p>Notre BDD dialogue ne posséde qu'une seule table, table commentaire
                    Cette table possede les champs suivants
@@ -60,7 +60,7 @@
            </div>
 
 
-           <div class="col-12 col-md-6">
+           <div class="col-12">
                <h2>Exercice</h2>
               <p>Afficher le commentaire là ou le pseudo corresponds a timothée</p>
            
@@ -84,8 +84,96 @@
            
            ?>
 
-        
+           <p> afficher tous les commentaire dans un tableau avec l'id dans une colonne le pseudo dans un autre colonne et enfin le message dans la derniere colonne avec une boucle while</p>
            
+
+           <?php 
+           
+           $requete = $pdoDialogue ->query("SELECT * FROM commentaire");//je rentre la requete dans ma variable $requete, je selection tous les evenement qui se trouve dans la table commentaire
+          
+
+           echo "
+           <table class=\"table table-striped\">
+           <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pseudo</th>
+                    <th>Message</th>
+                    <th>Date d'enregistrement</th>
+                </tr>
+           </thead>
+
+           <tbody>
+                
+           ";//Ici je fais echo de mon tableau en PHP => ici l'ouverture ainsi que le thead de mon tableau
+
+           while($ligne = $requete->fetch(PDO::FETCH_ASSOC)) { //grâce a la boucle while (tant que) j'execute le bloc de code tant que j'ai des renseignement qui correspond à ma requete
+
+                echo "<tr>";
+                echo "<td>#" . $ligne['id_commentaire'] . "</td>";//je boucle l'id_commentaire
+                echo "<td>" . $ligne['pseudo'] . "</td>";//je boucle le pseudo
+                echo "<td>" . $ligne['message'] . "</td>";//je boucle le message
+                echo "<td>" . date('d/m/Y H:i:s' , strtotime($ligne['date_enregistrement'])) . "</td>";//je boucle date d'enregistrement avec code php date converti en français 
+                //ici si quand on affiche la date sans la modifier elle client comme elle est dans PHP en anglais On utilise donc la fonction predefinie date() afin de modifier son format. la fonction strotime() string to time permet de dire
+                //que l'on veu qu'une chaine de caractere soit considere comme un format date/heure.
+                echo "</tr>";
+
+           }//fin de la boucle
+
+           echo "
+           </tbody>
+           </table>
+           ";//je ferme mon tableau
+
+           
+           ?>
+
+           <p>Rajoutez une colonne à votre tableau avec la notion de date d'enregistrement. Attention, pensez bien à regarder sur la doc de PHP pour le format date/heure</p>
+           
+
+           <p>afficher la liste de toutes les personnes qui on écrit des commentaires, ainsi que la date à laquelle le commentaire a été écrit dans une ol</p>
+           
+           <?php 
+           $requete = $pdoDialogue ->query("SELECT pseudo, date_enregistrement FROM commentaire");
+
+           echo "
+                <ol class=\"alert alert-success\">
+                
+           ";//Ici je fais echo de mon tableau en PHP => ici l'ouverture ainsi que le thead de mon tableau
+
+           //while pourquoi tant qu 'il ya des enrigistrement on boucle
+
+           while($ligne = $requete->fetch(PDO::FETCH_ASSOC)) //grâce a la boucle while (tant que) j'execute le bloc de code tant que j'ai des renseignement qui correspond à ma requete
+            {
+          
+                echo "<li>" . $ligne['pseudo'] . " " . date('d/m/Y' , strtotime($ligne['date_enregistrement'])). "</li>";//je boucle le pseudo//je boucle date d'enregistrement avec code php date converti en français 
+                //ici si quand on affiche la date sans la modifier elle client comme elle est dans PHP en anglais On utilise donc la fonction predefinie date() afin de modifier son format. la fonction strotime() string to time permet de dire
+                //que l'on veu qu'une chaine de caractere soit considere comme un format date/heure.
+            }        
+
+           //fin de la boucle
+
+           echo "
+       
+           </ol>
+           ";//je ferme mon tableau
+           
+           
+           
+           ?>
+
+           <p>Compter le nombre d'enrigistrement dans une page </p>
+
+           <?php 
+           
+            $requete = $pdoDialogue->query("SELECT * FROM commentaire");// je selectionne tous les elements qui se trouvent dans ma table commentaire
+
+            $nbrCommentaire = $requete->rowCount();//ici je compte le nombre de rangér renvoyée par ma requete
+
+            echo "<p>Il ya  $nbrCommentaire commentaires dans la table.</p>";//grâce a la fonction predefinie rowCount() on va pouvoir compter le nombre d'enregistrement qui correspond a notre requete et ainsi verifier que le navigateur recupere bien toutes les données.
+           ?>
+
+
             </div>
        </section>
      
