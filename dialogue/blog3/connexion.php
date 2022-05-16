@@ -38,7 +38,7 @@ if (!empty($_POST)) {
 }
 
 
-debug($_SESSION['membres']);
+debug($_SESSION['membre']);
 
 ?>
 
